@@ -1,25 +1,57 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import './Header.scss'
+
+const linkIsActive = (isActive, isPending) => {
+  if (isPending) return 'header__item-link'
+  if (isActive) return 'header__item-link header__item-link--is-active'
+  else return 'header__item-link'
+}
 
 const Header = () => {
   return (
     <nav className='header'>
-      <a href='/' className='header__logo'>LOGO</a>
+      <NavLink to='/' className='header__logo'>LOGO</NavLink>
       <ul className='header__nav-list'>
+
         <li className='header__list-item'>
-          <a href='/' className='header__item-link header__item-link--is-active'>Home</a>
+          <NavLink
+            to='/'
+            className={({ isActive, isPending }) => linkIsActive(isActive, isPending)}
+          >Home
+          </NavLink>
         </li>
+
         <li className='header__list-item'>
-          <a href='/dashboard' className='header__item-link'>Dashboard</a>
+          <NavLink
+            to='/dashboard'
+            className={({ isActive, isPending }) => linkIsActive(isActive, isPending)}
+          >Dashboard
+          </NavLink>
         </li>
+
         <li className='header__list-item'>
-          <a href='/secret' className='header__item-link'>Secret</a>
+          <NavLink
+            to='/secret'
+            className={({ isActive, isPending }) => linkIsActive(isActive, isPending)}
+          >Secret
+          </NavLink>
         </li>
+
         <li className='header__list-item'>
-          <a href='/login' className='header__item-link'>Login</a>
+          <NavLink
+            to='/login'
+            className={({ isActive, isPending }) => linkIsActive(isActive, isPending)}
+          >Login
+          </NavLink>
         </li>
+
         <li className='header__list-item'>
-          <a href='/singup' className='header__item-link'>Signup</a>
+          <NavLink
+            to='/signup'
+            className={({ isActive, isPending }) => linkIsActive(isActive, isPending)}
+          >Signup
+          </NavLink>
         </li>
       </ul>
     </nav>
