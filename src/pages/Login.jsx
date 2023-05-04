@@ -1,11 +1,36 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import useForm from '@/hooks/useForm'
+import { loginUserService } from '@/services/userServices'
 import logo from '@/assets/react.svg'
 import '@/styles/form.css'
 
 const Login = () => {
+  const navigate = useNavigate()
+
+  const sendData = async (data) => {
+    try {
+      const response = await loginUserService(data)
+      if (response.status === 200) {
+        navigate('/dashboard')
+        // Guardamos el token en el localStorage
+        // Este dato permanece aún si el navegador se cierra y vuelve a abrir
+        window.localStorage.setItem('token', response.data.token)
+        // console.log(response.data.token)
+      }
+    } catch (error) {
+      console.log('Ocurrió un error: ' + error.message)
+    }
+  }
+
+  const { input, handleInputChange, handleSubmit } = useForm(sendData, {
+    email: '',
+    password: ''
+  })
+
   return (
     <main className='form-signin w-100 m-auto'>
-      <form>
+      <form onSubmit={handleSubmit}>
         <img className='mb-4' src={logo} alt='' width='72' height='57' />
         <h1 className='h3 mb-3 fw-normal'>Please sign in</h1>
 
@@ -16,8 +41,8 @@ const Login = () => {
             id='floatingInput'
             placeholder='name@example.com'
             name='email'
-            value=''
-            onChange={() => {}}
+            value={input.email}
+            onChange={handleInputChange}
           />
           <label htmlFor='floatingInput'>Email address</label>
         </div>
@@ -29,8 +54,8 @@ const Login = () => {
             id='floatingPassword'
             placeholder='Password'
             name='password'
-            value=''
-            onChange={() => {}}
+            value={input.password}
+            onChange={handleInputChange}
           />
           <label htmlFor='floatingPassword'>Password</label>
         </div>
