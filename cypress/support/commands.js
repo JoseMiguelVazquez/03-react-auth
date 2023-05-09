@@ -1,3 +1,4 @@
+/* eslint-disable cypress/unsafe-to-chain-command */
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -23,3 +24,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('doLogin', (email, password) => {
+  cy.get('input[name="email"]')
+    .type(email)
+    .should('have.value', email)
+
+  cy.get('input[name="password"]')
+    .type(password)
+    .should('have.value', password)
+
+  cy.get('button[type="submit"]').click()
+})
